@@ -2,30 +2,41 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #0f172a;
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-    --popover: #ffffff;
-    --popover-foreground: #0f172a;
-    --primary: #0f172a;
-    --primary-foreground: #f8fafc;
-    --secondary: #f1f5f9;
-    --secondary-foreground: #0f172a;
-    --muted: #f1f5f9;
+    --background: #F4F1E9;
+    --foreground: #1C1B17;
+    --card: #FBF8F6;
+    --card-foreground: #1C1B17;
+    --popover: #FBF8F6;
+    --popover-foreground: #1C1B17;
+    --primary: #12392F;
+    --primary-foreground: #F4F1E9;
+    --secondary: #F8E7B8;
+    --secondary-foreground: #1C1B17;
+    --muted: #FBF8F6;
     --muted-foreground: #64748b;
-    --accent: #f1f5f9;
-    --accent-foreground: #0f172a;
-    --destructive: #ef4444;
-    --destructive-foreground: #f8fafc;
-    --border: #e2e8f0;
-    --input: #e2e8f0;
-    --ring: #0f172a;
-    --radius: 0.5rem;
+    --accent: #F8E7B8;
+    --accent-foreground: #1C1B17;
+    --destructive: #B9232C;
+    --destructive-foreground: #F4F1E9;
+    --border: #1C1B17;
+    --input: #1C1B17;
+    --ring: #12392F;
+    --radius: 4px;
   }
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  box-shadow: none !important;
+}
+
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+/* Force override all shadows in shadcn/ui components */
+*, ::before, ::after {
+  box-shadow: none !important;
 }

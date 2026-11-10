@@ -1,18 +1,9 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { fontSans, fontMono } from '@/lib/fonts';
 import { AuthProvider } from '@/hooks/useAuth';
 import { Providers } from '@/components/providers';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Kasir OSIS',
@@ -21,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+    <html lang="id" className={cn(fontSans.variable, fontMono.variable)} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-kertas text-tinta font-sans antialiased">
         <AuthProvider>
           <Providers>{children}</Providers>
         </AuthProvider>
