@@ -1,0 +1,24 @@
+# dependencies & build
+node_modules/
+dist/
+build/
+.next/
+coverage/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# OS & logs
+.DS_Store
+*.log
+
+# file pribadi (tanpa titik di depan)
+SECURITY_SEED_GUIDE.md
+START-HERE.md
+a.txt
+b.txt
+c.txt
+AUDIT-CHECKLIST.txt
+AUDIT-SUMMARY.txt

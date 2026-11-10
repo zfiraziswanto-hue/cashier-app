@@ -1,0 +1,141 @@
+### Auth API Test Suite (.http file for REST Client)
+### Usage: Open in VSCode with REST Client extension (humao.rest-client)
+
+@baseUrl = http://localhost:4000/api/v1
+@email = testuser@example.com
+@password = TestPassword123
+@newPassword = NewPassword123
+
+### TEST 1: Register New User
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "nama": "Test User"
+}
+
+### TEST 2: Register with Invalid Email
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "invalid-email",
+  "password": "{{password}}",
+  "nama": "Test User"
+}
+
+### TEST 3: Register with Password Too Short
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "shortpass@example.com",
+  "password": "Short1",
+  "nama": "Test User"
+}
+
+### TEST 4: Register with Duplicate Email
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "AnotherPassword123",
+  "nama": "Another User"
+}
+
+### TEST 5: Login with Correct Credentials
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### TEST 6: Login with Wrong Password
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "WrongPassword123"
+}
+
+### TEST 7: Login with Non-existent Email
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "nonexistent@example.com",
+  "password": "{{password}}"
+}
+
+### TEST 8: Access Protected Endpoint (GET /products) with Valid Token
+# First register and login to get token
+GET {{baseUrl}}/products
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### TEST 9: Access Protected Endpoint Without Token
+GET {{baseUrl}}/products
+
+### TEST 10: Change Password with Correct Old Password
+# Need valid token
+PATCH {{baseUrl}}/auth/password
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "old_password": "{{password}}",
+  "new_password": "{{newPassword}}"
+}
+
+### TEST 11: Change Password with Wrong Old Password
+# Need valid token
+PATCH {{baseUrl}}/auth/password
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "old_password": "WrongPassword123",
+  "new_password": "{{newPassword}}"
+}
+
+### TEST 12: Login with New Password (after TEST 10)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{newPassword}}"
+}
+
+### TEST 13: Logout
+# Need valid token
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### TEST 14: Admin Reset Password (requires admin token and valid userId)
+# First get admin token by logging in as admin@osis.local
+POST {{baseUrl}}/auth/admin/reset-password/00000000-0000-0000-0000-000000000004
+Authorization: Bearer ADMIN_TOKEN_HERE
+
+### TEST 15: Admin Reset Password - Non-Admin User Attempted (should fail 403)
+# Use regular user token
+POST {{baseUrl}}/auth/admin/reset-password/00000000-0000-0000-0000-000000000004
+Authorization: Bearer USER_TOKEN_HERE
+
+### TEST 16: Rate Limit Test (run 6 times in quick succession)
+# 1st attempt
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ratelimit@example.com",
+  "password": "WrongPassword"
+}
+
+### Health Check
+GET {{baseUrl}}/health
